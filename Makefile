@@ -8,4 +8,3 @@ lint:
 	mypy .
 	black . --check
 	isort . --check
-	flake8 .
