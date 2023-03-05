@@ -5,27 +5,25 @@ from dotenv import load_dotenv
 
 # Load env variables
 load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
-def main() -> None:
-
-    openai.api_key = os.getenv("OPENAI_API_KEY")
-
+def query_chatgpt_basic() -> None:
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": "Who won the world series in 2020?"},
-            {
-                "role": "assistant",
-                "content": "The Los Angeles Dodgers won the World Series in 2020.",
-            },
-            {"role": "user", "content": "Where was it played?"},
+            {"role": "user", "content": "How long does it take light to reach Mars?"},
         ],
         temperature=0.2,
+        n=2,
     )
 
-    print("response:", completion)
+    print("full response:", completion)
+    print("first message:", completion.choices[0].message.content)
+
+
+def main() -> None:
+    query_chatgpt_basic()
 
 
 if __name__ == "__main__":
