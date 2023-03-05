@@ -3,6 +3,7 @@
 langchain>=0.0.101
 openai>=0.27
 llama-index>=0.4.20
+html2text>=2020.1.16
 
 # env variables
 python-dotenv==1.0.0

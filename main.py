@@ -2,6 +2,7 @@ import os
 
 import openai
 from dotenv import load_dotenv
+from llama_index import GPTSimpleVectorIndex, SimpleWebPageReader
 
 # Load env variables
 load_dotenv()
@@ -23,7 +24,7 @@ def query_chatgpt_basic() -> None:
 
 
 def main() -> None:
-    query_chatgpt_basic()
+    pass
 
 
 if __name__ == "__main__":
