@@ -1,10 +1,6 @@
-.PHONY: format lint
-
-format:
-	black .
-	isort .
+.PHONY: lint
 
 lint:
+	black .
+	isort .
 	mypy .
-	black . --check
-	isort . --check
