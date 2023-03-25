@@ -2,29 +2,37 @@ import os
 
 import openai
 from dotenv import load_dotenv
-from llama_index import GPTSimpleVectorIndex, SimpleWebPageReader
+from langchain.agents import initialize_agent
+from langchain.llms import OpenAI
+
+from tools import list_files, move_file
 
 # Load env variables
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
-def query_chatgpt_basic() -> None:
-    completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": "How long does it take light to reach Mars?"},
+def query_agent(query: str) -> str:
+    """Query the Dropbox Agent."""
+    llm = OpenAI(temperature=0)
+    agent = initialize_agent(
+        tools=[
+            list_files.ListFilesTool(),
+            move_file.MoveFileTool(),
         ],
-        temperature=0.2,
-        n=2,
+        llm=llm,
+        agent="zero-shot-react-description",
+        verbose=True,
     )
-
-    print("full response:", completion)
-    print("first message:", completion.choices[0].message.content)
+    return agent.run(query)
 
 
 def main() -> None:
-    pass
+    output = query_agent(
+        "Can you organize the files in my Dropbox. Then summarize the new folder"
+        "structure and the contents of each folder."
+    )
+    print("Output", output)
 
 
 if __name__ == "__main__":
